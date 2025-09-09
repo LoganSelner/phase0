@@ -1,0 +1,16 @@
+{
+    "name": "phase0",
+    "image": "python:3.13-slim",
+    "features": {},
+    "postCreateCommand": "pip install pipx && pipx install poetry pre-commit && poetry install --with dev && pre-commit install",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "charliermarsh.ruff",
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    }
+}
