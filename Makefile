@@ -71,7 +71,7 @@ lint: ## Ruff lint
 	$(UV) run ruff check .
 
 typecheck: ## Mypy
-	$(UV) run mypy src
+	$(UV) run mypy
 
 qa: fmt-check typecheck lint test ## Full quality gate
 

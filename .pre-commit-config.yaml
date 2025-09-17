@@ -18,15 +18,6 @@ repos:
   hooks:
     - id: black
 
-- repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.18.1
-  hooks:
-    - id: mypy
-      stages: [manual]
-      pass_filenames: false
-      additional_dependencies:
-        - fastapi==0.116.2
-
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v6.0.0
   hooks:
