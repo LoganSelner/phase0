@@ -23,7 +23,9 @@ repos:
   hooks:
     - id: mypy
       stages: [manual]
-      args: ["src"]
+      pass_filenames: false
+      additional_dependencies:
+        - fastapi==0.116.2
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v6.0.0
