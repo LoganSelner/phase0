@@ -1,6 +1,6 @@
 ![CI](https://github.com/LoganSelner/phase0-v2/actions/workflows/ci.yml/badge.svg)
 
-# phase0-v2 — FastAPI + uv template
+# FastAPI + uv template
 
 A minimal, modern FastAPI starter that uses **[uv](https://github.com/astral-sh/uv)** for dependency and virtualenv management, **pre-commit** for quality gates, and a clean `src/` layout. Ships with a Dockerfile and a small health-check route.
 
@@ -11,7 +11,7 @@ A minimal, modern FastAPI starter that uses **[uv](https://github.com/astral-sh/
 * ⚡ **FastAPI** app at `src/app/main.py` with a `/health` endpoint
 * 🧪 **Tests** via `pytest` (see `tests/test_app.py`)
 * 🧰 **uv** for fast, reproducible installs (`pyproject.toml` + `uv.lock`)
-* 🧹 **pre-commit** hooks: ruff, black, mypy, and more
+* 🧹 **pre-commit** hooks: ruff, black, and more
 * 🐳 **Dockerfile** for production-like images (multi-stage, small runtime)
 * 🗂️ `src/` layout with `app` package (`app.main:app`)
 
@@ -32,11 +32,9 @@ A minimal, modern FastAPI starter that uses **[uv](https://github.com/astral-sh/
 ## Quickstart (local dev)
 
 ```bash
-# 1) Install dependencies into a local .venv (created automatically)
-uv sync --group dev
-
-# 2) Run the app with auto-reload
-uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+make bootstrap
+make dev
+# http://localhost:8000
 # Visit: http://localhost:8000/health
 # Docs:  http://localhost:8000/docs  (Swagger UI)
 #        http://localhost:8000/redoc
@@ -49,7 +47,7 @@ uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 uv run pytest -q
 
 # Type-check
-uv run mypy --config-file=pyproject.toml src
+uv run mypy
 
 # Lint + format (non-destructive checks)
 uv run ruff check . && uv run black --check .
@@ -57,11 +55,6 @@ uv run ruff check . && uv run black --check .
 # Apply fixes (imports -> ruff, then black)
 uv run ruff check --fix . && uv run black .
 
-# Run pre-commit on everything
-uv run pre-commit run --all-files --hook-stage manual
-
-# Install pre-commit into your git hooks (runs on commit)
-uv run pre-commit install
 ```
 
 ---
@@ -115,10 +108,10 @@ Build a compact image with a prebuilt virtualenv and run it:
 
 ```bash
 # Build
-docker build -t phase0-app:local .
+make docker-build
 
 # Run
-docker run --rm -p 8000:8000 --name phase0 phase0-app:local
+make docker-run
 # App will listen on 0.0.0.0:8000 → http://localhost:8000
 ```
 
@@ -136,6 +129,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 .
 ├── Dockerfile
 ├── Makefile
+├── README.md
 ├── pyproject.toml
 ├── src
 │   └── app
@@ -153,12 +147,12 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 ## pre-commit (quality gates)
 
-This repo is configured to run a suite of checks (ruff, black, mypy, etc.).
+This repo is configured to run a suite of checks (ruff, black, etc.).
 
 * Run once on all files:
 
   ```bash
-  uv run pre-commit run --all-files --hook-stage manual
+  uv run pre-commit run --all-files
   ```
 * Install into your git hooks (so it runs automatically on commit):
 
