@@ -1,4 +1,4 @@
-![CI](https://github.com/LoganSelner/phase0-v2/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/LoganSelner/phase0/actions/workflows/ci.yml/badge.svg)
 
 # FastAPI + uv template
 
@@ -20,7 +20,7 @@ A minimal, modern FastAPI starter that uses **[uv](https://github.com/astral-sh/
 ## Prerequisites
 
 * **Python 3.13** (a `.python-version` file is included if you use pyenv)
-* **uv** (recommended). Install options:
+* **uv** (once per machine). Install options:
 
   * macOS/Linux: `curl -LsSf https://astral.sh/uv/install.sh | sh`
   * Windows (PowerShell): `irm https://astral.sh/uv/install.ps1 | iex`
@@ -33,18 +33,23 @@ A minimal, modern FastAPI starter that uses **[uv](https://github.com/astral-sh/
 
 ```bash
 make bootstrap
+# → installs a compatible Python, syncs deps (incl. dev), installs git hooks
+
 make dev
-# http://localhost:8000
+# → http://localhost:8000
 # Visit: http://localhost:8000/health
 # Docs:  http://localhost:8000/docs  (Swagger UI)
 #        http://localhost:8000/redoc
+
+make qa
+# (non-mutating) fmt-check + typecheck + pytest
 ```
 
 ### One-liners you’ll use a lot
 
 ```bash
 # Run tests
-uv run pytest -q
+uv run pytest
 
 # Type-check
 uv run mypy
@@ -86,6 +91,13 @@ Run `make help` to see everything. Common targets:
 | `make clean`          | Remove caches                                            |
 | `make deep-clean`     | Also remove build artifacts                              |
 
+### Examples:
+```bash
+make dev PORT=9001
+make docker-build TAG=pr-42
+make docker-run-d CONTAINER_NAME=phase0
+```
+
 > If a target isn’t available on your machine, run `make help` to confirm the list and descriptions.
 
 ---
@@ -94,11 +106,11 @@ Run `make help` to see everything. Common targets:
 
 Prefer simple search/replace? Do this once and you’re done:
 
-1. pyproject.toml → in [project], change name = "phase0-v2" to your project name.
+1. pyproject.toml → in [project], change name = "phase0" to your project name.
 
-2. README.md → replace the few occurrences of phase0-v2 in examples.
+2. README.md → replace the few occurrences of phase0 in examples.
 
-3. Makefile → if it mentions phase0-v2, replace those occurrences too.
+3. Makefile → if it mentions phase0, replace those occurrences too.
 
 ---
 
@@ -127,17 +139,17 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 ```
 .
-├── Dockerfile
-├── Makefile
-├── README.md
-├── pyproject.toml
-├── src
-│   └── app
-│       ├── __init__.py
-│       └── main.py
-├── tests
-│   └── test_app.py
-└── uv.lock
+├─ src/app/
+│  ├─ __init__.py
+│  └─ main.py          # FastAPI app with /health
+├─ tests/
+│  └─ test_app.py      # smoke test
+├─ pyproject.toml      # deps, tool config, build backend
+├─ uv.lock             # lockfile (commit this)
+├─ Makefile            # dev workflow
+├─ Dockerfile          # multi-stage build (non-root runtime)
+└─ README.md
+
 ```
 
 * **App entrypoint**: `app.main:app`
@@ -179,9 +191,18 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 ## Troubleshooting
 
+* **No files to check**
+
+  * Only tracked files are checked. git add -A, or run make fmt.
 * **Port already in use**
 
   * Change `--port` or stop the other process.
 * **Python version mismatch**
 
   * This project targets **Python 3.13**. If you’re on another version, use pyenv or update your interpreter.
+* **Fresh env**
+
+  ```bash
+  rm -rf .venv
+  make bootstrap
+  ```

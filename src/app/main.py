@@ -4,5 +4,5 @@ app = FastAPI(title="Phase0 Template")
 
 
 @app.get("/health")
-def health() -> dict:
+def health() -> dict[str, bool]:
     return {"ok": True}

@@ -56,7 +56,7 @@ serve: ## FastAPI like prod (no reload)
 	$(UV) run uvicorn $(APP) --host $(HOST) --port $(PORT)
 
 test: ## Pytest
-	$(UV) run pytest -q
+	$(UV) run pytest
 
 # ---------- Code quality (dev UX uses project env; CI uses pre-commit manual) ----------
 fmt: ## Apply fixes now (ruff imports -> black)

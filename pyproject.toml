@@ -1,5 +1,5 @@
 [project]
-name = "phase0-v2"
+name = "phase0"
 version = "0.1.0"
 description = "Phase 0 scaffolding"
 readme = "README.md"
@@ -44,6 +44,11 @@ target-version = "py313"
 select = ["E", "F", "W", "I", "UP", "B", "RUF"]
 ignore = []
 
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+combine-as-imports = true
+force-sort-within-sections = true
+
 [tool.mypy]
 python_version = "3.13"
 warn_unused_ignores = true
@@ -56,3 +61,7 @@ exclude = '^tests/'
 mypy_path = ["src"]
 files = ["src"]
 explicit_package_bases = true
+
+[tool.pytest.ini_options]
+addopts = "-q -ra --strict-markers"
+testpaths = ["tests"]
