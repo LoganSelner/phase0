@@ -3,6 +3,7 @@ name = "phase0"
 version = "0.1.0"
 description = "Phase 0 scaffolding"
 readme = "README.md"
+license = { file = "LICENSE" }
 authors = [
     { name = "LoganSelner", email = "loganselner@gmail.com" }
 ]
@@ -30,7 +31,7 @@ build-backend = "hatchling.build"
 packages = ["src/app"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/app", "README.md", "pyproject.toml"]
+include = ["src/app", "README.md", "pyproject.toml", "LICENSE"]
 
 [tool.black]
 line-length = 88
